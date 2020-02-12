@@ -358,7 +358,7 @@ class TrecQueryCandOutputProcessor(DataProcessor):
   def _create_examples(self, dir, set_type):
     """Creates examples for the training and dev sets."""
     examples = []
-    with open(dir, 'r') as f:
+    with tf.gfile.Open(dir, 'r') as f:
       for (i, line) in enumerate(f.readlines()):
         line_elements = line.strip().split()
         if len(line_elements) < 7:
