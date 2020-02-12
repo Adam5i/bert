@@ -21,10 +21,12 @@ from __future__ import print_function
 import collections
 import csv
 import os
+import urllib.parse as ul
+
 import modeling
 import optimization
-import tokenization
 import tensorflow as tf
+import tokenization
 
 flags = tf.flags
 
@@ -332,6 +334,40 @@ class MrpcProcessor(DataProcessor):
           InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label))
     return examples
 
+
+class TrecQueryCandOutput(DataProcessor):
+  """Processor for the MRPC data set (GLUE version)."""
+
+  def get_train_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(os.path.join(data_dir, "train.query_candidates_output"), "train")
+
+  # test.query_candidates_output
+  def get_dev_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(os.path.join(data_dir, "dev.query_candidates_output"), "dev")
+
+  def get_test_examples(self, data_dir):
+    """See base class."""
+    return self._create_examples(os.path.join(data_dir, "test.query_candidates_output"), "test")
+
+  def get_labels(self):
+    """See base class."""
+    return ["0", "1"]
+
+  def _create_examples(self, lines, set_type):
+    """Creates examples for the training and dev sets."""
+    examples = []
+    for (i, line) in enumerate(lines):
+      line_elements = line.strip().split()
+      if len(line) < 7:
+          continue
+      guid = "%s-%s" % (set_type, i)
+      text_a = tokenization.convert_to_unicode(ul.unquote_plus(line_elements[0]))
+      text_b = tokenization.convert_to_unicode(line_elements[1:6])
+      label = tokenization.convert_to_unicode(line_elements[7])
+      examples.append(InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label))
+    return examples
 
 class ColaProcessor(DataProcessor):
   """Processor for the CoLA data set (GLUE version)."""
