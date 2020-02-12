@@ -364,7 +364,7 @@ class TrecQueryCandOutputProcessor(DataProcessor):
           continue
       guid = "%s-%s" % (set_type, i)
       text_a = tokenization.convert_to_unicode(ul.unquote_plus(line_elements[0]))
-      text_b = tokenization.convert_to_unicode(line_elements[1:6])
+      text_b = tokenization.convert_to_unicode(" ".join(line_elements[1:6]))
       label = tokenization.convert_to_unicode(line_elements[7])
       examples.append(InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label))
     return examples
