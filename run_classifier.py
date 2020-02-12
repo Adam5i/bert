@@ -353,7 +353,7 @@ class TrecQueryCandOutputProcessor(DataProcessor):
 
   def get_labels(self):
     """See base class."""
-    return ["0", "1"]
+    return ["0.0", "1.1"]
 
   def _create_examples(self, dir, set_type):
     """Creates examples for the training and dev sets."""
