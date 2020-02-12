@@ -335,7 +335,7 @@ class MrpcProcessor(DataProcessor):
     return examples
 
 
-class TrecQueryCandOutput(DataProcessor):
+class TrecQueryCandOutputProcessor(DataProcessor):
   """Processor for the MRPC data set (GLUE version)."""
 
   def get_train_examples(self, data_dir):
